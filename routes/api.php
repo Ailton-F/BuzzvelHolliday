@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('users')->group(base_path('routes/api/usersRoutes.php'));
-Route::prefix('holiday_plans')->group(base_path('routes/api/holidayPlansRoutes.php'));
+Route::middleware('auth:sanctum')->prefix('users')->group(base_path('routes/api/usersRoutes.php'));
+Route::middleware('auth:sanctum')->prefix('holiday-plans')->group(base_path('routes/api/holidayPlansRoutes.php'));
+Route::prefix('auth')->group(base_path('routes/api/authRoutes.php'));
 

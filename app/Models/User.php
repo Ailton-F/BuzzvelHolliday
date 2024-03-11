@@ -44,6 +44,6 @@ class User extends Authenticatable
     ];
 
     public function plans(){
-        $this->belongsToMany(HolidayPlan::class);
+       return $this->belongsToMany(HolidayPlan::class, "holiday_plans_users");
     }
 }
