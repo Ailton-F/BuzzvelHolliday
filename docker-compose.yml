@@ -3,7 +3,7 @@ services:
     container_name: buzzvel-events
     build: .
     volumes:
-      - ./buzzvel:/var/www/html
+      - ./buzzvel-events:/var/www/html
     ports:
       - 8000:80
   mysql_db:
