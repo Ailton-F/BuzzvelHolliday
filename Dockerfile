@@ -3,7 +3,7 @@ LABEL authors="Ailton-F"
 
 ENTRYPOINT ["top", "-b"]
 
-FROM php:8.2.4-nginx
+FROM php:8.2.4-apache
 WORKDIR /var/www/html
 
 EXPOSE 80

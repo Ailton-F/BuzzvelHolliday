@@ -1,5 +1,5 @@
 services:
-  buzzvel:
+  buzzvel-events:
     container_name: buzzvel-events
     build: .
     volumes:
