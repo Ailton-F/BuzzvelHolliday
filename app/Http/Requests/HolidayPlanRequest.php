@@ -26,7 +26,7 @@ class HolidayPlanRequest extends FormRequest
             'title'=>'required',
             'description' => 'required',
             'location' => 'required',
-            'date' => "required|date|after:today"
+            'date' => "required|date|after:today|date_format:Y-m-d"
         ];
     }
 }
