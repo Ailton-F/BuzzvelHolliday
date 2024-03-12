@@ -1,5 +1,5 @@
 services:
-  laravel-docker:
+  buzzvel:
     container_name: buzzvel-events
     build: .
     volumes:
