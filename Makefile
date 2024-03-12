@@ -9,7 +9,7 @@ stop:
 up:
 	docker-compose up -d
 composer-update:
-	docker exec buzzvel bash -c "composer update"
+	docker exec buzzvel-events bash -c "composer update"
 data:
-	docker exec buzzvel bash -c "php artisan migrate"
-	docker exec buzzvel bash -c "php artisan db:seed"
+	docker exec buzzvel-events bash -c "php artisan migrate"
+	docker exec buzzvel-events bash -c "php artisan db:seed"
