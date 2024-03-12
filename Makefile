@@ -3,7 +3,7 @@ setup:
 	@make up
 	@make composer-update
 build:
-	docker-compose build --no-cache --force-rm
+	docker-compose -f ./docker-compose.yml build --no-cache --force-rm
 stop:
 	docker-compose stop
 up:
