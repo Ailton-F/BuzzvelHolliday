@@ -4,7 +4,7 @@ LABEL authors="Ailton-F"
 ENTRYPOINT ["top", "-b"]
 
 FROM php:8.2.4-apache
-WORKDIR /var/www/html
+WORKDIR /var/www/html/BuzzvelEvents
 
 EXPOSE 80
 EXPOSE 8000
