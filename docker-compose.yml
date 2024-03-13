@@ -3,6 +3,7 @@ version: '3.9'
 services:
     php:
         container_name: php
+        command: ["composer", "update"]
         build:
             context: ./docker/php
             dockerfile: Dockerfile
