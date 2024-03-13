@@ -53,6 +53,3 @@ migrate-fresh: ## Clear database and run all migrations
 
 tests: ## Run all tests
 	docker exec ${CONTAINER_PHP} ./vendor/bin/phpunit
-
-tests-html: ## Run tests and generate coverage. Report found in reports/index.html
-	docker exec ${CONTAINER_PHP} php -d zend_extension=xdebug.so -d xdebug.mode=coverage ./vendor/bin/phpunit --coverage-html reports

@@ -13,7 +13,7 @@ services:
         volumes:
             - ./:/var/www
         ports:
-            - 9000:8080
+            - "9000:8080"
         depends_on:
             - database
             - redis
@@ -21,7 +21,7 @@ services:
         container_name: database
         image: mysql:8.0
         ports:
-            -   3306:3306
+            - "3306:3306"
         environment:
             - MYSQL_DATABASE=default
             - MYSQL_USER=laravel
@@ -34,6 +34,16 @@ services:
         image: redis:alpine
         command: redis-server --appendonly yes --requirepass  "secret"
         ports:
-            - 6380:6379
+            - "6380:6379"
+    nginx:
+        image: nginx:1.21-alpine
+        restart: always
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - .www:/usr/share/nginx/html:ro
+            - .cfg:/etc/nginx
+            - .cert:/cert:ro
 volumes:
     db-data: ~

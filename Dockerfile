@@ -19,4 +19,7 @@ COPY --from=composer:2.3.5 /usr/bin/composer /usr/bin/composer
 # Copy configuration files.
 COPY ./docker/php/php.ini /usr/local/etc/php/php.ini
 COPY ./docker/php/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
-COPY ./docker/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./docker/nginx/nginx.conf /etc/nginx/sites-enabled/default
+
+# Make a link on nginx config file
+RUN ln -s /etc/nginx/sites-enabled/default /etc/nginx/sites-available/default
