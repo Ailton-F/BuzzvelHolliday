@@ -32,6 +32,8 @@ services:
         volumes:
             - volume-mysql:/var/lib/mysql
             - ./docker/mysql/logs:/logs
+        environment:
+            - MYSQL_DATABASE='buzzvel'
         networks:
             - laravel
     npm:
