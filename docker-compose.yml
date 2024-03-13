@@ -30,6 +30,9 @@ services:
             - 3306:3306
         environment:
             MYSQL_ROOT_PASSWORD: root
+        volumes:
+            - volume-mysql:/var/lib/mysql
+            - ./docker/mysql/logs:/logs
         networks:
             - laravel
     npm:
