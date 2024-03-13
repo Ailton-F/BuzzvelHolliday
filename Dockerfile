@@ -17,9 +17,11 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
     libpng-dev \
-    php8.2-fpm \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    php8.2-fpm
+
+# Clean apt and lists
+RUN apt-get clean \
+RUN rm -rf /var/lib/apt/lists/*
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
