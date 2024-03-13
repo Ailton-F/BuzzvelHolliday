@@ -33,7 +33,13 @@ DB_DATABASE=laravel
 DB_USERNAME=root
 DB_PASSWORD=
 ````
-###  Install packages and setup the migrations
+On docker container, the ``DB_HOST`` should have, before the ip, the name of the database container, so it will end up like
+this
+````dotenv
+DB_HOST=my_db-1#127.0.0.1
+````
+
+###  Install packages and set up the migrations
 Run the codes below at the root directory of this project, the first one will install all the packages required to run the API, the last command will migrate
 the table and columns to your database, make sure to configured correctly your .env to connect at your database.
 ````shell
