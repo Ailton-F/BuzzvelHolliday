@@ -19,10 +19,7 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     software-properties-common \
     apt-transport-https \
-    ca-certificates \
-    php-fpm \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    ca-certificates
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

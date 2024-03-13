@@ -6,8 +6,6 @@ services:
         build: .
         volumes:
             - .:/var/www/html/
-        ports:
-            - "8000:80"
         networks:
             - buzzvel-network
 
@@ -22,6 +20,15 @@ services:
         networks:
             - buzzvel-network
 
+    nginx:
+        image: nginx:latest
+        container_name: buzzvel-nginx
+        restart: always
+        ports:
+            -   "8000:80"
+        volumes:
+            - ../src:/var/www
+            - ./nginx:/etc/nginx/conf.d
 networks:
     buzzvel-network:
         driver: bridge
