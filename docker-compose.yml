@@ -33,7 +33,7 @@ services:
             - volume-mysql:/var/lib/mysql
             - ./docker/mysql/logs:/logs
         environment:
-            MYSQL_DATABASE: buzzvel
+            MYSQL_DATABASE: laravel
             MYSQL_PASSWORD: ""
             MYSQL_ROOT_PASSWORD: ""
         networks:
