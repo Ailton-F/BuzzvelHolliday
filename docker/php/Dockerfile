@@ -1,4 +1,5 @@
-FROM devilbox/php-fpm-8.2:latest
+ARG PHP_VERSION
+FROM php:${PHP_VERSION}
 
 WORKDIR /var/www
 
