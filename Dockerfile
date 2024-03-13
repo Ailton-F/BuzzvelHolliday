@@ -1,55 +1,22 @@
-FROM php:8.2.4-fpm
+# Used for prod build.
+FROM php:8.1-fpm as php
 
-LABEL authors="Ailton-F"
+# Set environment variables
+ENV PHP_OPCACHE_ENABLE=1
+ENV PHP_OPCACHE_ENABLE_CLI=0
+ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS=0
+ENV PHP_OPCACHE_REVALIDATE_FREQ=0
 
-# Install Nginx
-RUN apt-get update && apt-get install -y nginx
+# Install dependencies.
+RUN apt-get update && apt-get install -y unzip libpq-dev libcurl4-gnutls-dev nginx libonig-dev
 
-# Install additional dependencies
-RUN apt-get update && apt-get install -y \
-    libicu-dev \
-    libmariadb-dev \
-    unzip \
-    zip \
-    zlib1g-dev \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    libjpeg62-turbo-dev \
-    libpng-dev \
-    software-properties-common \
-    apt-transport-https \
-    ca-certificates
+# Install PHP extensions.
+RUN docker-php-ext-install mysqli pdo pdo_mysql bcmath curl opcache mbstring
 
-# Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Copy composer executable.
+COPY --from=composer:2.3.5 /usr/bin/composer /usr/bin/composer
 
-# Install PHP extensions
-RUN docker-php-ext-install gettext intl pdo_mysql gd
-
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) gd
-
-# Remove default Nginx configuration
-RUN rm /etc/nginx/sites-enabled/default
-
-# Copy Nginx configuration file with rewrite rules
-COPY nginx.conf /etc/nginx/sites-available/default
-
-# Enable the Nginx site configuration
-RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
-
-# Create necessary directories
-RUN mkdir -p /var/www/html
-
-# Set working directory
-WORKDIR /var/www/html
-
-# Copy the application code to the container
-COPY . /var/www/html
-
-# Expose ports
-EXPOSE 80
-
-# Run PHP-FPM and Nginx
-CMD service php8.2-fpm start && nginx -g 'daemon off;'
+# Copy configuration files.
+COPY ./docker/php/php.ini /usr/local/etc/php/php.ini
+COPY ./docker/php/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
+COPY ./docker/nginx/nginx.conf /etc/nginx/nginx.conf
