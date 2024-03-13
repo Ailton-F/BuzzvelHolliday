@@ -17,10 +17,10 @@ RUN apt-get update && apt-get install -y \
 
 
 RUN docker-php-ext-install mysqli pdo pdo_mysql pdo_pgsql pgsql session xml
-RUN docker-php-ext-install gd
 RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/
+RUN docker-php-ext-install gd
 
-RUN mkdir -p /usr/src/php/ext/redis;
+RUN mkdir -p /usr/src/php/ext/redis; \
 	curl -fsSL https://pecl.php.net/get/redis --ipv4 | tar xvz -C "/usr/src/php/ext/redis" --strip 1; \
 	docker-php-ext-install redis;
 
