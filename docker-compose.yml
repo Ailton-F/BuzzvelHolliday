@@ -1,81 +1,58 @@
-version: '3.9'
+version: "3.9"
 
 services:
-    php:
-        container_name: php
-        command: ["composer", "update"]
+    server-nginx:
         build:
-            context: ./docker/php
-            dockerfile: Dockerfile
-        restart: unless-stopped
-        tty: true
-        volumes:
-            - .:/var/www
-            - ./docker/php/local.ini:/usr/local/etc/php/my.cnf/local.ini
-        networks:
-            - setup-network
-
-    nginx:
-        container_name: setup-nginx
-        build:
-            context: ./docker/nginx
-            dockerfile: Dockerfile
-        restart: unless-stopped
-        tty: true
-        ports:
-            - '8080:80'
-            - '443:443'
-        volumes:
-            - ./demo:/var/www
-            - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-        networks:
-            - setup-network
-
-    mysql:
-        container_name: setup-mysql
-        image: mysql:latest
-        command: --default-authentication-plugin=mysql_native_password
-        restart: always
-        tty: true
-        volumes:
-            - setup-data:/var/lib/mysql/
-            - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
-        networks:
-            - setup-network
-        ports:
-            - '3306:3306'
-        environment:
-            MYSQL_DATABASE: laravel
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_USER: user
-            MYSQL_PASSWORD: password
-
-    phpmyadmin:
-        container_name: setup-phpmyadmin
-        image: phpmyadmin:latest
-        restart: always
-        ports:
-            - '8888:80'
-        networks:
-            - setup-network
-        environment:
-            PMA_HOST: setup-mysql
+            context: ./docker_stack/nginx/.
         depends_on:
-            - mysql
-
-    redis:
-        container_name: setup-redis
-        build:
-            context: ./docker/redis
-            dockerfile: Dockerfile
+            - php82
+            - mysql8
+        container_name: server-nginx
         ports:
-            - '6379:6379'
-
+            - 8081:80
+        volumes:
+            - ./src:/var/www/html
+        networks:
+            - laravel
+    php82:
+        build:
+            context: ./docker_stack/php/.
+        container_name: php82
+        volumes:
+            - ./src:/var/www/html
+        networks:
+            - laravel
+            - 
+    mysql8:
+        image: mysql:8.0.28
+        container_name: mysql8
+        command: --default-authentication-plugin=mysql_native_password --max_allowed_packet=42505856 --general-log=1 --general-log-file=/logs/general-log.log
+        restart: always
+        ports:
+            - 3310:3306
+        volumes:
+            - volume-mysql:/var/lib/mysql
+            - ./docker_stack/mysql/logs:/logs
+        environment:
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        networks:
+            - laravel
+    npm:
+        image: node:alpine3.18
+        container_name: npm
+        volumes:
+            - ./src:/var/www/html
+        working_dir: /var/www/html
+        entrypoint: ['npm']
+        networks:
+            - laravel
 networks:
-    setup-network:
-        driver: bridge
-
-
+    laravel:
+        name: laravel
 volumes:
-    setup-data:
-        driver: local
+    volume-mysql:
+        name: volume-mysql
+

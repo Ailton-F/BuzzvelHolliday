@@ -1,37 +1,26 @@
-FROM php:fpm-bullseye
+# Usa una imagen base de PHP 8.2-fpm-alpine
+FROM php:8.2-fpm-alpine
 
-WORKDIR /var/www
+# Copia configuración de PHP-FPM
+ADD ./www.conf /usr/local/etc/php-fpm.d/www.conf
 
-RUN rm -rf /var/www/html
+# Configura grupo y crea usuario
+RUN addgroup -g 1000 laravel && adduser -G laravel -g laravel -s /bin/sh -D laravel
 
-RUN apt-get update -y && apt-get install -y --no-install-recommends \
-    apt-utils
+# Crea directorio del proyecto
+RUN mkdir -p /var/www/html
 
-RUN apt-get update && apt-get install -y \
-    zlib1g-dev \
-    libzip-dev \
-    unzip \
-    libpng-dev \
-    libpq-dev \
-    libxml2-dev
+# Instala extensiones de PHP necesarias
+RUN docker-php-ext-install pdo pdo_mysql
 
-
-RUN docker-php-ext-install mysqli pdo pdo_mysql pdo_pgsql pgsql session xml
-RUN docker-php-ext-install gd
-
-RUN mkdir -p /usr/src/php/ext/redis; \
-	curl -fsSL https://pecl.php.net/get/redis --ipv4 | tar xvz -C "/usr/src/php/ext/redis" --strip 1; \
-	docker-php-ext-install redis;
-
+# Instala Composer globalmente
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN groupadd -g 1000 laravel
-RUN useradd -u 1000 -ms /bin/bash -g laravel user
+# Cambia propietario del directorio del proyecto
+RUN chown -R laravel:laravel /var/www/html
 
-COPY --chown=user:laravel . /var/www
+# Cambia al usuario laravel
+USER laravel
 
-USER user
-
-EXPOSE 9000
-
-CMD ["php-fpm"]
+# Directorio de trabajo
+WORKDIR /var/www/html

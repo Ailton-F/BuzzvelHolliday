@@ -1,7 +1,7 @@
 .PHONY: help ps build build-prod start fresh fresh-prod stop restart destroy \
 	cache cache-clear migrate migrate migrate-fresh tests tests-html
 
-CONTAINER_PHP=buzzvel-api
+CONTAINER_PHP=php82
 CONTAINER_NGINX=nginx
 CONTAINER_DATABASE=mysql
 
@@ -15,7 +15,7 @@ build: ## Build all containers for DEV
 	@docker build --no-cache . -f ./Dockerfile.local
 
 build-prod: ## Build all containers for PROD
-	@docker build --no-cache . -f ./Dockerfile
+	@docker compse build --no-cache
 
 start: ## Start all containers
 	@docker compose up --force-recreate -d
