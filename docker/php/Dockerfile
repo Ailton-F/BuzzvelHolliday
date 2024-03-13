@@ -1,5 +1,4 @@
-ARG PHP_VERSION
-FROM php:${PHP_VERSION}
+FROM php:fpm-bullseye
 
 WORKDIR /var/www
 
