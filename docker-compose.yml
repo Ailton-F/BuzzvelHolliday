@@ -26,8 +26,7 @@ services:
             - '443:443'
         volumes:
             - ./demo:/var/www
-            - ./docker/nginx/default.conf:/etc/nginx/sites-available/default
-            - ./docker/nginx/default.conf:/etc/nginx/sites-enabled/default
+            - ./docker/nginx/nginx.conf:/etc/nginx/default.conf
         networks:
             - setup-network
 
@@ -45,10 +44,23 @@ services:
         ports:
             - '3306:3306'
         environment:
-            MYSQL_DATABASE: buzzvel
+            MYSQL_DATABASE: laravel
             MYSQL_ROOT_PASSWORD: root
             MYSQL_USER: user
             MYSQL_PASSWORD: password
+
+    phpmyadmin:
+        container_name: setup-phpmyadmin
+        image: phpmyadmin:5.2
+        restart: always
+        ports:
+            - '8888:80'
+        networks:
+            - setup-network
+        environment:
+            PMA_HOST: setup-mysql
+        depends_on:
+            - mysql
 
     redis:
         container_name: setup-redis
