@@ -26,9 +26,8 @@ services:
         image: mysql:8.0
         container_name: mysql8
         command: --default-authentication-plugin=mysql_native_password --max_allowed_packet=42505856 --general-log=1 --general-log-file=/logs/general-log.log
-        restart: always
         ports:
-            - 3310:3306
+            - 3306:3306
         volumes:
             - volume-mysql:/var/lib/mysql
             - ./docker/mysql/logs:/logs
