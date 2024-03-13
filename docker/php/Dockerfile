@@ -24,6 +24,8 @@ RUN mkdir -p /usr/src/php/ext/redis; \
 	docker-php-ext-install redis;
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN composer update \
+    install
 
 RUN groupadd -g 1000 laravel
 RUN useradd -u 1000 -ms /bin/bash -g laravel user
