@@ -6,7 +6,7 @@ services:
             context: ./docker/nginx/.
         depends_on:
             - php82
-            - mysql8
+            - db
         container_name: server-nginx
         ports:
             - 8081:80
