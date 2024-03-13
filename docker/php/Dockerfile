@@ -4,23 +4,19 @@ WORKDIR /var/www
 
 RUN rm -rf /var/www/html
 
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    libpng-dev \
-    libjpeg62-turbo-dev \
-    libfreetype6-dev \
-    locales \
-    zip \
-    jpegoptim optipng pngquant gifsicle \
-    vim \
-    unzip \
-    git \
-    curl \
-    libzip-dev \
-    apt-utils \
-    libonig-dev
+RUN apt-get update -y && apt-get install -y --no-install-recommends \
+    apt-utils
 
-RUN docker-php-ext-install zip pdo_mysql mbstring exif
+RUN apt-get update && apt-get install -y \
+    zlib1g-dev \
+    libzip-dev \
+    unzip \
+    libpng-dev \
+    libpq-dev \
+    libxml2-dev \
+
+
+RUN docker-php-ext-install mysqli pdo pdo_mysql pdo_pgsql pgsql session xml
 RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/
 RUN docker-php-ext-install gd
 
