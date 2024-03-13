@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y \
     software-properties-common \
     apt-transport-https \
     ca-certificates \
-    && apt-get install -y php-fpm \
+    php-fpm \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
