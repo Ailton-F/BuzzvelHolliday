@@ -11,7 +11,7 @@ services:
         ports:
             - 8081:80
         volumes:
-            - ./src:/var/www/html
+            - .:/var/www/html
         networks:
             - laravel
     php82:
@@ -19,7 +19,7 @@ services:
             context: ./docker/php/.
         container_name: php82
         volumes:
-            - ./src:/var/www/html
+            - .:/var/www/html
         networks:
             - laravel
     mysql8:
@@ -43,7 +43,7 @@ services:
         image: node:alpine3.18
         container_name: npm
         volumes:
-            - ./src:/var/www/html
+            - .:/var/www/html
         working_dir: /var/www/html
         entrypoint: ['npm']
         networks:
