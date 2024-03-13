@@ -63,6 +63,10 @@ To generate the documentation run the command below. It will be generated at *lo
 ````shell
 php artisan l5-swagger:generate
 ````
+
+## Docker
+You can also use docker to run this app, after clone the app on your desktop just follow the commands [here](https://github.com/cromero2386/laravel10-nginx).
+Thanks to [cromero2386](https://github.com/cromero2386/laravel10-nginx/commits?author=cromero2386) for the docker container.
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
