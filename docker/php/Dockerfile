@@ -1,10 +1,11 @@
-FROM php:fpm
+FROM devilbox/php-fpm-8.2:latest
 
 WORKDIR /var/www
 
 RUN rm -rf /var/www/html
 
 RUN apt-get update && apt-get install -y \
+    php-xdebug \
     build-essential \
     libpng-dev \
     libjpeg62-turbo-dev \
