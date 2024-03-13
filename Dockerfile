@@ -5,9 +5,6 @@ LABEL authors="Ailton-F"
 # Install Nginx
 RUN apt-get update && apt-get install -y nginx
 
-# Mod Rewrite
-RUN apt-get install -y libnginx-mod-http-rewrite
-
 # Install additional dependencies
 RUN apt-get update && apt-get install -y \
     libicu-dev \
@@ -33,8 +30,11 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
 # Remove default Nginx configuration
 RUN rm /etc/nginx/sites-enabled/default
 
-# Copy Nginx configuration file
+# Copy Nginx configuration file with rewrite rules
 COPY nginx.conf /etc/nginx/sites-available/default
+
+# Enable the Nginx site configuration
+RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
 
 # Create necessary directories
 RUN mkdir -p /var/www/html
