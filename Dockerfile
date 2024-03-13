@@ -22,4 +22,5 @@ COPY ./docker/php/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
 COPY ./docker/nginx/nginx.conf /etc/nginx/sites-enabled/default
 
 # Make a link on nginx config file
+RUN rm -fv /etc/nginx/sites-available/default
 RUN ln -s /etc/nginx/sites-enabled/default /etc/nginx/sites-available/default
