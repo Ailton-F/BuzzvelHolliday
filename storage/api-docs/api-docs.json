@@ -406,6 +406,9 @@
                 "responses": {
                     "200": {
                         "description": "Generate a pdf in another page"
+                    },
+                    "404": {
+                        "description": "Plan not found"
                     }
                 },
                 "security": [
@@ -451,6 +454,9 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
                     }
                 },
                 "security": [
@@ -661,6 +667,9 @@
                     },
                     "422": {
                         "description": "Unprocessable Entity"
+                    },
+                    "404": {
+                        "description": "Plan not found"
                     }
                 },
                 "security": [
@@ -752,7 +761,7 @@
                         }
                     },
                     "404": {
-                        "description": "User not found"
+                        "description": "Plan not found"
                     }
                 },
                 "security": [
@@ -765,8 +774,21 @@
     },
     "components": {
         "responses": {
-            "401": {
-                "description": "Unauthorized"
+            "403": {
+                "description": "Unauthorized",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "data": {
+                                    "type": "string",
+                                    "example": "Unauthenticated"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
             },
             "404": {
                 "description": "User not found"

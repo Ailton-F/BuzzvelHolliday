@@ -214,17 +214,17 @@ class HolidayPlansController extends Controller
      *         required=true,
      *         @OA\Schema(type="integer", example="2")
      *     ),
-     *     @OA\Response(response="200", description="Generate a pdf in another page")
+     *     @OA\Response(response="200", description="Generate a pdf in another page"),
+     *     @OA\Response(response="404", description="Plan not found")
      * )
      *
      * @param int $id
-     * @return Response
+     * @return Response | JsonResponse
      */
-    public function getPdf(int $id): Response
+    public function getPdf(int $id): Response | JsonResponse
     {
-        $holiday_plan = HolidayPlan::findOrFail($id)->with('participants')->first()->toArray();
-//        dd($holiday_plan);
-        return Pdf::loadView('pdf', $holiday_plan)
+        $holiday_plan = HolidayPlan::findOrFail($id);
+        return Pdf::loadView('pdf', $holiday_plan->with('participants')->first()->toArray())
             ->setPaper('a4')
             ->stream();
     }

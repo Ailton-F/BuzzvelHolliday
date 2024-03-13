@@ -28,7 +28,8 @@ class UserController extends Controller
      *                   @OA\Property(property="password", type="string", example="12345")
      *               )
      *          )
-     *     )
+     *     ),
+     *     @OA\Response(response="401", description="Unauthorized")
      * )
      *
      * @return EloquentCollection
@@ -144,7 +145,8 @@ class UserController extends Controller
      *              )
      *          )
      *      ),
-     *     @OA\Response(response="422", description="Unprocessable Entity")
+     *     @OA\Response(response="422", description="Unprocessable Entity"),
+     *     @OA\Response(response="404", description="Plan not found")
      * )
      *
      * @param UserRequest $req
@@ -183,7 +185,7 @@ class UserController extends Controller
      *               )
      *           )
      *     ),
-     *     @OA\Response(response="404", description="User not found")
+     *     @OA\Response(response="404", description="User not found"),
      * )
      *
      * @param int $id
@@ -218,7 +220,7 @@ class UserController extends Controller
      *               )
      *           )
      *     ),
-     *     @OA\Response(response="404", description="User not found")
+     *     @OA\Response(response="404", description="Plan not found")
      * )
      *
      * @param int $id
@@ -226,9 +228,16 @@ class UserController extends Controller
      */
     public function participate(int $id_event): JsonResponse
     {
-        $user = auth()->user();
+        $user = auth()->user()->load('plans');
+        $event = HolidayPlan::findOrFail($id_event);
+
+        if($user->plans->contains($event)){
+            return response()->json([
+                "message"=>"User already participating of this event"
+            ], 400);
+        }
         $user->plans()->attach($id_event);
-        $event = HolidayPlan::findOrfail($id_event);
+
         return response()->json([
             "data"=>"$user->name is now participating of the event: $event->title"
          ], 200);

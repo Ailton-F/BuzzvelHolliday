@@ -7,6 +7,62 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## How to set up and run this code
+
+First you have to install XAMPP and Composer
+
+### Xamp
+You can install xampp with this link below
+https://www.apachefriends.org/download.html
+
+After you install XAMPP, make sure to start MySql and Apache server, this will make your database up.
+![img.png](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.ionos.com%2Fdigitalguide%2Ffileadmin%2FDigitalGuide%2FScreenshots%2FEN_XAMPP_Control_Panel_2.PNG&f=1&nofb=1&ipt=adbf52e95960c195ea2b31c7faf34f04881d3dc3034c7ef12716921bef378b41&ipo=images)
+
+### Composer
+
+Just follow the instructions here https://getcomposer.org/download/ to install composer locally
+
+### .env
+You will see a .env.example, locally you can just copy the cont ent of .env.example and paste at .env, but make sure to
+change the ``DB_DATABASE`` value to the name you wish to your database.
+````dotenv
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel
+DB_USERNAME=root
+DB_PASSWORD=
+````
+###  Install packages and setup the migrations
+Run the codes below at the root directory of this project, the first one will install all the packages required to run the API, the last command will migrate
+the table and columns to your database, make sure to configured correctly your .env to connect at your database.
+````shell
+composer install
+php artisan migrate
+````
+
+### Running
+To run the project just run the code:
+````shell
+php artisan serve
+````
+For default Laravel run the application on the port 8000, but if you already have something going on in this port just
+pass the flag ``--port=wished_port``, I like to run in the port 3080, so I do
+````shell
+php artisan serve --port=3080
+````
+
+### Tests
+To run the tests is pretty simple, run the command below
+````shell
+php artisan test
+````
+
+### Docs
+To generate the documentation run the command below. It will be generated at *localhost:port/api/documentation*
+````shell
+php artisan l5-swagger:generate
+````
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:

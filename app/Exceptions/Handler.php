@@ -2,7 +2,11 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -23,8 +27,22 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function (NotFoundHttpException $e) {
+            return response()->json([
+                "message"=>"object not found"
+            ], 404);
+        });
+
+        $this->renderable(function (MethodNotAllowedHttpException $e) {
+            return response()->json([
+               "message"=>$e->getMessage()
+            ], 405);
+        });
+
+        $this->renderable(function (UniqueConstraintViolationException $e) {
+           return response()->json([
+                "message"=>"User already registered"
+           ], 400);
         });
     }
 }

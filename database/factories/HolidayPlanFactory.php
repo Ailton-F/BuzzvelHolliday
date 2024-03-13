@@ -17,7 +17,10 @@ class HolidayPlanFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title'=>fake()->title(),
+            'description'=>fake()->text(),
+            'date'=>fake()->date(format: 'Y-m-d'),
+            'location'=>fake()->locale()
         ];
     }
 }
