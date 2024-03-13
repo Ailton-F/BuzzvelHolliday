@@ -20,9 +20,7 @@ RUN apt-get update && apt-get install -y \
     software-properties-common \
     apt-transport-https \
     ca-certificates \
-    && add-apt-repository ppa:ondrej/php \
-    && apt-get update \
-    && apt-get install -y php8.2-fpm \
+    && apt-get install -y php-fpm \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
