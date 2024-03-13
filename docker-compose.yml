@@ -35,15 +35,5 @@ services:
         command: redis-server --appendonly yes --requirepass  "secret"
         ports:
             - "6380:6379"
-    nginx:
-        image: nginx:1.21-alpine
-        restart: always
-        ports:
-            - "80:80"
-            - "443:443"
-        volumes:
-            - .www:/usr/share/nginx/html:ro
-            - .cfg:/etc/nginx
-            - .cert:/cert:ro
 volumes:
     db-data: ~
