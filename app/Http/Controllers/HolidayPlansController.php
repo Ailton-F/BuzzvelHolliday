@@ -36,7 +36,7 @@ class HolidayPlansController extends Controller
      */
     public function list(): Collection
     {
-        return HolidayPlan::all();
+        return HolidayPlan::all()->load('participants');
     }
 
     /**
@@ -73,7 +73,7 @@ class HolidayPlansController extends Controller
      */
     public function listById(int $id): HolidayPlan
     {
-        return HolidayPlan::findOrFail($id);
+        return HolidayPlan::findOrFail($id)->load('participants');
     }
 
     /**
@@ -223,8 +223,8 @@ class HolidayPlansController extends Controller
      */
     public function getPdf(int $id): Response | JsonResponse
     {
-        $holiday_plan = HolidayPlan::findOrFail($id);
-        return Pdf::loadView('pdf', $holiday_plan->with('participants')->first()->toArray())
+        $holiday_plan = HolidayPlan::findOrFail((int) $id)->load('participants')->toArray();
+        return Pdf::loadView('pdf', $holiday_plan)
             ->setPaper('a4')
             ->stream();
     }
